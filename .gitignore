@@ -1,0 +1,20 @@
+# Dependências e builds
+node_modules/
+frontend/dist/
+coverage/
+playwright-report/
+test-results/
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Anotações e material local
+docs/
+/imagens/
+/imagens-redesign/
+
+# Sistema
+.DS_Store
+Thumbs.db
