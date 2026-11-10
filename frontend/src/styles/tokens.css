@@ -1,0 +1,78 @@
+/* Paleta Carvão, com versão escura e clara (seção 10 da especificação). */
+:root {
+  --font: 'IBM Plex Sans', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+}
+
+:root,
+:root[data-theme='light'] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --raised: #f7f5f1;
+  --well: #f0ede7;
+  --tint: #fbf0dd;
+  --ink: #1d1a16;
+  --soft: #665e53;
+  --line: #e6e1d9;
+  --border: #8f877b;
+  --accent: #9f5a08;
+  --on-accent: #ffffff;
+  --link: #9f5a08;
+  --seg-done: #a98250;
+  --on-seg-done: #1d1a16;
+  --shade: rgba(29, 26, 22, 0.42);
+  --float: 0 12px 36px rgba(29, 26, 22, 0.16);
+
+  --cat-barro-bg: #e1cec7; --cat-barro-border: #772e04; --cat-barro-text: #522815;
+  --cat-ocre-bg: #f4ddb3; --cat-ocre-border: #876202; --cat-ocre-text: #463100;
+  --cat-musgo-bg: #eaf2da; --cat-musgo-border: #7a8c4e; --cat-musgo-text: #2f3b0b;
+  --cat-eucalipto-bg: #cbf6eb; --cat-eucalipto-border: #1d7e6d; --cat-eucalipto-text: #013f35;
+  --cat-azul-bg: #b8dafd; --cat-azul-border: #215b8f; --cat-azul-text: #143758;
+  --cat-violeta-bg: #f2ebff; --cat-violeta-border: #8e75b4; --cat-violeta-text: #3c2c53;
+  --cat-ameixa-bg: #ecc6df; --cat-ameixa-border: #683159; --cat-ameixa-text: #4c2641;
+  --cat-none-bg: #f0ede7; --cat-none-border: #8f877b; --cat-none-text: #1d1a16;
+
+  --st-done-bg: #cfefe0; --st-done-text: #064c36;
+  --st-partial-bg: #fae6bb; --st-partial-text: #533f0d;
+  --st-notdone-bg: #e3e6ec; --st-notdone-text: #3a4049;
+  --st-later-bg: #dde4f9; --st-later-text: #323f6d;
+  --error-bg: #fbe1dc; --error-text: #8d261b;
+  --danger: #af2c1f; --on-danger: #ffffff;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #141210;
+  --surface: #1d1a17;
+  --raised: #28241f;
+  --well: #322d27;
+  --tint: #3a2e1c;
+  --ink: #f2ece4;
+  --soft: #b0a698;
+  --line: #2c2823;
+  --border: #6f665a;
+  --accent: #f0b255;
+  --on-accent: #231703;
+  --link: #f0b255;
+  --seg-done: #7a6443;
+  --on-seg-done: #f2ece4;
+  --shade: rgba(8, 6, 4, 0.66);
+  --float: 0 12px 36px rgba(0, 0, 0, 0.5);
+
+  --cat-barro-bg: #43352e; --cat-barro-border: #bb795d; --cat-barro-text: #fbd9cb;
+  --cat-ocre-bg: #594421; --cat-ocre-border: #cd9d4a; --cat-ocre-text: #f1dfc3;
+  --cat-musgo-bg: #263617; --cat-musgo-border: #b2d399; --cat-musgo-text: #d7e8cb;
+  --cat-eucalipto-bg: #172824; --cat-eucalipto-border: #5a9b8a; --cat-eucalipto-text: #c5ebe0;
+  --cat-azul-bg: #192f40; --cat-azul-border: #b3dcff; --cat-azul-text: #cbe5fc;
+  --cat-violeta-bg: #403a5c; --cat-violeta-border: #8d81c4; --cat-violeta-text: #e1ddfc;
+  --cat-ameixa-bg: #51424c; --cat-ameixa-border: #d5a6c6; --cat-ameixa-text: #f5d7eb;
+  --cat-none-bg: #28241f; --cat-none-border: #6f665a; --cat-none-text: #f2ece4;
+
+  --st-done-bg: #193429; --st-done-text: #a2e6c7;
+  --st-partial-bg: #3a2f18; --st-partial-text: #f0d08f;
+  --st-notdone-bg: #303338; --st-notdone-text: #ccd1da;
+  --st-later-bg: #282f45; --st-later-text: #c4d0f3;
+  --error-bg: #47211b; --error-text: #f8bdb3;
+  --danger: #f89b8b; --on-danger: #2b130f;
+  color-scheme: dark;
+}

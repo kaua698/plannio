@@ -1,0 +1,369 @@
+/* ==========================================================================
+   PERSONALIZAÇÃO VISUAL DA LANDING PAGE
+
+   Este é o único arquivo que você precisa abrir para mudar a aparência.
+   Altere o valor à direita dos dois-pontos e salve. A estrutura está em
+   ../landing.css e não precisa ser tocada.
+
+   Índice (use Ctrl+F com o nome da seção):
+     1. CORES            5. POSICIONAMENTO
+     2. TIPOGRAFIA       6. IMAGENS
+     3. TAMANHOS         7. ANIMAÇÕES
+     4. ESPAÇAMENTOS     8. RESPONSIVIDADE
+
+   Textos, links, caminhos de imagens e a intensidade das animações de rolagem
+   ficam no arquivo ao lado: personalizar.js.
+
+   Unidades:
+     px       tamanho fixo.
+     vw       porcentagem da largura da tela.
+     ch       largura aproximada de um caractere.
+     em       proporcional ao tamanho da fonte do próprio texto.
+     clamp(mínimo, ideal, máximo)  cresce com a tela, dentro dos limites.
+   ========================================================================== */
+
+:root {
+  /* ========================================================================
+     1. CORES
+     Aceita hexadecimal (#f0b255), rgb(240 178 85) ou o nome de outra variável.
+     ======================================================================== */
+
+  /* Fundos */
+  --lp-cor-fundo: #100e0c; /* ALTERE AQUI A COR DE FUNDO DA PÁGINA */
+  --lp-cor-card: #1a1714; /* ALTERE AQUI O FUNDO DOS CARDS E DA LISTA DO APP */
+  --lp-cor-card-destaque: #26221d; /* ALTERE AQUI O FUNDO DOS CARDS FLUTUANTES E DA LINHA ATUAL */
+  --lp-cor-trilho: #332d27; /* ALTERE AQUI O FUNDO DAS BARRAS E DOS QUADRADOS APAGADOS */
+  --lp-cor-abertura: #141210; /* ALTERE AQUI A COR DA CORTINA DE ABERTURA */
+
+  /* Textos */
+  --lp-cor-texto: #f4eee6; /* ALTERE AQUI A COR DOS TÍTULOS E TEXTOS PRINCIPAIS */
+  --lp-cor-texto-suave: #b5ab9d; /* ALTERE AQUI A COR DOS TEXTOS SECUNDÁRIOS */
+
+  /* Bordas */
+  --lp-cor-borda: #2c2823; /* ALTERE AQUI A COR DAS BORDAS DISCRETAS E LINHAS DIVISÓRIAS */
+  --lp-cor-borda-forte: #4d463d; /* ALTERE AQUI A COR DAS BORDAS MAIS VISÍVEIS */
+
+  /* Destaque */
+  --lp-cor-destaque: #f0b255; /* ALTERE AQUI A COR DE DESTAQUE (ÂMBAR) USADA EM RÓTULOS, BARRAS E RELÓGIO */
+  --lp-cor-sobre-destaque: #231703; /* ALTERE AQUI A COR DO TEXTO SOBRE A COR DE DESTAQUE */
+  --lp-cor-concluido: #7a6443; /* ALTERE AQUI A COR DO QUE JÁ FOI FEITO NA FAIXA DO DIA */
+
+  /* Botões */
+  --lp-cor-botao-fundo: var(--lp-cor-destaque); /* ALTERE AQUI O FUNDO DO BOTÃO PRINCIPAL */
+  --lp-cor-botao-texto: var(--lp-cor-sobre-destaque); /* ALTERE AQUI O TEXTO DO BOTÃO PRINCIPAL */
+  --lp-cor-botao-borda: var(--lp-cor-destaque); /* ALTERE AQUI A BORDA DO BOTÃO PRINCIPAL */
+  --lp-cor-botao2-fundo: transparent; /* ALTERE AQUI O FUNDO DO BOTÃO SECUNDÁRIO (ENTRAR) */
+  --lp-cor-botao2-texto: var(--lp-cor-texto); /* ALTERE AQUI O TEXTO DO BOTÃO SECUNDÁRIO */
+  --lp-cor-botao2-borda: var(--lp-cor-borda-forte); /* ALTERE AQUI A BORDA DO BOTÃO SECUNDÁRIO */
+
+  /* Efeitos */
+  --lp-cor-brilho: rgb(240 178 85 / 0.13); /* ALTERE AQUI A COR DO BRILHO ATRÁS DO TÍTULO. O ÚLTIMO NÚMERO É A FORÇA: 0 A 1 */
+  --lp-sombra-app: 0 40px 90px rgb(0 0 0 / 0.45); /* ALTERE AQUI A SOMBRA DA TELA DO APP. USE none PARA REMOVER */
+  --lp-sombra-flutuante: 0 20px 44px rgb(0 0 0 / 0.42); /* ALTERE AQUI A SOMBRA DOS CARDS FLUTUANTES */
+  --lp-cor-menu-rolagem: color-mix(in srgb, var(--lp-cor-fundo) 86%, transparent); /* ALTERE AQUI O FUNDO DO MENU AO ROLAR. O % É A OPACIDADE */
+  --lp-desfoque-menu: 14px; /* ALTERE AQUI O DESFOQUE ATRÁS DO MENU. 0px DESLIGA */
+  --lp-brilho-botao-hover: 1.08; /* ALTERE AQUI O CLAREAMENTO DO BOTÃO AO PASSAR O MOUSE. 1 DESLIGA */
+
+
+  /* ========================================================================
+     2. TIPOGRAFIA
+     Peso: 400 normal, 500 médio, 600 forte.
+     Para trocar a fonte, instale-a em frontend/src/main.jsx e informe o nome aqui.
+     ======================================================================== */
+
+  /* Fontes */
+  --lp-fonte: var(--font); /* ALTERE AQUI A FONTE DOS TEXTOS. EX: 'Inter', sans-serif */
+  --lp-fonte-numeros: var(--mono); /* ALTERE AQUI A FONTE DE HORÁRIOS, NÚMEROS E RÓTULOS */
+
+  /* Pesos */
+  --lp-peso-titulos: 500; /* ALTERE AQUI O PESO DE TODOS OS TÍTULOS */
+  --lp-peso-marca: 600; /* ALTERE AQUI O PESO DO NOME PLANNIO */
+  --lp-peso-links: 500; /* ALTERE AQUI O PESO DOS LINKS E BOTÕES */
+
+  /* Base */
+  --lp-texto-base: 16px; /* ALTERE AQUI O TAMANHO PADRÃO DO TEXTO */
+  --lp-entrelinha-base: 1.5; /* ALTERE AQUI O ESPAÇO ENTRE LINHAS DO TEXTO */
+
+  /* Título principal */
+  --lp-titulo-hero-tamanho: clamp(50px, 9vw, 128px); /* ALTERE AQUI O TAMANHO DO TÍTULO PRINCIPAL */
+  --lp-titulo-hero-entrelinha: 1.06; /* ALTERE AQUI O ESPAÇO ENTRE AS LINHAS DO TÍTULO PRINCIPAL */
+  --lp-titulo-folga-descendente: 0.26em; /* ALTERE AQUI A FOLGA QUE EVITA CORTAR LETRAS COMO g, p E q DURANTE A ANIMAÇÃO DOS TÍTULOS */
+  --lp-titulo-hero-espacamento: -0.04em; /* ALTERE AQUI A DISTÂNCIA ENTRE AS LETRAS DO TÍTULO PRINCIPAL */
+  --lp-titulo-hero-largura: 12ch; /* ALTERE AQUI A LARGURA MÁXIMA DO TÍTULO PRINCIPAL ANTES DE QUEBRAR LINHA */
+
+  /* Subtítulo */
+  --lp-subtitulo-tamanho: clamp(17px, 1.5vw, 20px); /* ALTERE AQUI O TAMANHO DO SUBTÍTULO */
+  --lp-subtitulo-largura: 50ch; /* ALTERE AQUI A LARGURA MÁXIMA DO SUBTÍTULO */
+
+  /* Títulos de seção */
+  --lp-titulo-secao-tamanho: clamp(30px, 4.2vw, 56px); /* ALTERE AQUI O TAMANHO DOS TÍTULOS DE SEÇÃO */
+  --lp-titulo-secao-entrelinha: 1.08; /* ALTERE AQUI O ESPAÇO ENTRE LINHAS DOS TÍTULOS DE SEÇÃO */
+  --lp-titulo-secao-espacamento: -0.028em; /* ALTERE AQUI A DISTÂNCIA ENTRE LETRAS DOS TÍTULOS DE SEÇÃO */
+  --lp-titulo-secao-largura: 20ch; /* ALTERE AQUI A LARGURA MÁXIMA DOS TÍTULOS DE SEÇÃO */
+
+  /* Título final */
+
+  /* Cards, passos e textos menores */
+  --lp-titulo-card-tamanho: 21px; /* ALTERE AQUI O TAMANHO DO TÍTULO DOS CARDS DE RECURSOS */
+  --lp-titulo-card-espacamento: -0.015em; /* ALTERE AQUI A DISTÂNCIA ENTRE LETRAS DO TÍTULO DOS CARDS */
+  --lp-titulo-passo-tamanho: 24px; /* ALTERE AQUI O TAMANHO DO TÍTULO DOS TRÊS PASSOS */
+  --lp-titulo-passo-espacamento: -0.02em; /* ALTERE AQUI A DISTÂNCIA ENTRE LETRAS DO TÍTULO DOS PASSOS */
+  --lp-texto-card-tamanho: 15.5px; /* ALTERE AQUI O TAMANHO DO TEXTO DOS CARDS E PASSOS */
+  --lp-rotulo-tamanho: 13px; /* ALTERE AQUI O TAMANHO DOS RÓTULOS ACIMA DOS TÍTULOS */
+  --lp-numero-passo-tamanho: 14px; /* ALTERE AQUI O TAMANHO DO NÚMERO DOS PASSOS */
+  --lp-menu-tamanho: 14px; /* ALTERE AQUI O TAMANHO DO TEXTO DO MENU */
+  --lp-marca-tamanho: 16px; /* ALTERE AQUI O TAMANHO DO NOME PLANNIO */
+  --lp-marca-espacamento: -0.02em; /* ALTERE AQUI A DISTÂNCIA ENTRE LETRAS DO NOME PLANNIO */
+  --lp-botao-tamanho: 16px; /* ALTERE AQUI O TAMANHO DO TEXTO DOS BOTÕES GRANDES */
+  --lp-botao-peq-tamanho: 14px; /* ALTERE AQUI O TAMANHO DO TEXTO DO BOTÃO DO MENU */
+  --lp-pergunta-tamanho: 18px; /* ALTERE AQUI O TAMANHO DAS PERGUNTAS DAS DÚVIDAS */
+  --lp-pergunta-icone-tamanho: 22px; /* ALTERE AQUI O TAMANHO DO SINAL + DAS DÚVIDAS */
+  --lp-rodape-tamanho: 14px; /* ALTERE AQUI O TAMANHO DO TEXTO DO RODAPÉ */
+
+  /* Tela do aplicativo mostrada na página */
+  --lp-app-texto: 13px; /* ALTERE AQUI O TAMANHO DO TEXTO DENTRO DA TELA DO APP */
+  --lp-app-titulo-tamanho: 30px; /* ALTERE AQUI O TAMANHO DO TÍTULO DENTRO DA TELA DO APP */
+  --lp-app-relogio-tamanho: 34px; /* ALTERE AQUI O TAMANHO DO RELÓGIO DENTRO DA TELA DO APP */
+  --lp-app-numero-tamanho: 30px; /* ALTERE AQUI O TAMANHO DO NÚMERO DA OFENSIVA */
+  --lp-app-hora-tamanho: 12.5px; /* ALTERE AQUI O TAMANHO DOS HORÁRIOS NA LISTA DA TELA DO APP */
+  --lp-app-titulo-espacamento: -0.02em; /* ALTERE AQUI A DISTÂNCIA ENTRE LETRAS DO TÍTULO DA TELA DO APP */
+
+
+  /* ========================================================================
+     3. TAMANHOS
+     Larguras, alturas, ícones e cantos arredondados.
+     ======================================================================== */
+
+  /* Larguras gerais */
+  --lp-largura-conteudo: 1320px; /* ALTERE AQUI A LARGURA MÁXIMA DAS SEÇÕES */
+  --lp-largura-menu: 1120px; /* ALTERE AQUI A LARGURA MÁXIMA DO MENU FLUTUANTE */
+  --lp-largura-app: 1180px; /* ALTERE AQUI A LARGURA DA TELA DO APP NO TOPO DA PÁGINA */
+  --lp-largura-faq: 820px; /* ALTERE AQUI A LARGURA DA LISTA DE DÚVIDAS */
+  --lp-resposta-largura: 64ch; /* ALTERE AQUI A LARGURA MÁXIMA DO TEXTO DAS RESPOSTAS */
+
+  /* Demonstração */
+  --lp-demo-largura: 1180px; /* ALTERE AQUI A LARGURA MÁXIMA DAS CAPTURAS DA DEMONSTRAÇÃO */
+  --lp-demo-largura-minima: 0; /* ALTERE AQUI A LARGURA MÍNIMA DAS CAPTURAS. ABAIXO DELA, A CAPTURA ROLA DE LADO DENTRO DA MOLDURA */
+  --lp-demo-texto-tamanho: 17px; /* ALTERE AQUI O TAMANHO DO TEXTO QUE EXPLICA CADA ÁREA */
+  --lp-demo-texto-altura: 54px; /* ALTERE AQUI A ALTURA RESERVADA AO TEXTO, PARA A PÁGINA NÃO PULAR AO TROCAR DE ABA */
+  --lp-demo-aba-altura: 40px; /* ALTERE AQUI A ALTURA DAS ABAS DA DEMONSTRAÇÃO */
+
+  /* Botões */
+  --lp-botao-altura: 52px; /* ALTERE AQUI A ALTURA DOS BOTÕES GRANDES */
+  --lp-botao-largura-interna: 26px; /* ALTERE AQUI A FOLGA LATERAL DOS BOTÕES GRANDES */
+  --lp-botao-peq-altura: 38px; /* ALTERE AQUI A ALTURA DO BOTÃO DO MENU */
+  --lp-botao-peq-largura-interna: 16px; /* ALTERE AQUI A FOLGA LATERAL DO BOTÃO DO MENU */
+
+  /* Ícones e peças */
+  --lp-icone-marca: 22px; /* ALTERE AQUI O TAMANHO DO SÍMBOLO AO LADO DO NOME */
+  --lp-icone-traco: 1.8; /* ALTERE AQUI A ESPESSURA DO SÍMBOLO */
+  --lp-faixa-altura: 34px; /* ALTERE AQUI A ALTURA DA FAIXA DO DIA */
+  --lp-barra-altura: 5px; /* ALTERE AQUI A ALTURA DAS BARRAS DE META */
+  --lp-dia-chip: 36px; /* ALTERE AQUI O TAMANHO DOS QUADRADOS DOS DIAS DA SEMANA */
+  --lp-caixa-marcar: 15px; /* ALTERE AQUI O TAMANHO DAS CAIXAS DE MARCAR */
+
+  /* Tela do aplicativo */
+  --lp-app-menu-largura: 170px; /* ALTERE AQUI A LARGURA DO MENU LATERAL DA TELA DO APP */
+  --lp-app-coluna-largura: 210px; /* ALTERE AQUI A LARGURA DA COLUNA DIREITA DA TELA DO APP */
+
+  /* Brilho atrás do título */
+  --lp-brilho-largura: 1100px; /* ALTERE AQUI A LARGURA DO BRILHO */
+  --lp-brilho-altura: 640px; /* ALTERE AQUI A ALTURA DO BRILHO */
+
+  /* Abertura */
+  --lp-abertura-icone: 54px; /* ALTERE AQUI O TAMANHO DO RELÓGIO DA ABERTURA */
+  --lp-abertura-traco: 1.2; /* ALTERE AQUI A ESPESSURA DO RELÓGIO DA ABERTURA */
+  --lp-abertura-hora: 44px; /* ALTERE AQUI O TAMANHO DA HORA NA ABERTURA */
+  --lp-abertura-barra: 180px; /* ALTERE AQUI A LARGURA DA BARRA DA ABERTURA */
+
+  /* Cantos arredondados */
+  --lp-raio-botao: 4px; /* ALTERE AQUI O ARREDONDAMENTO DOS BOTÕES */
+  --lp-raio-menu: 8px; /* ALTERE AQUI O ARREDONDAMENTO DO MENU FLUTUANTE */
+  --lp-raio-card: 6px; /* ALTERE AQUI O ARREDONDAMENTO DOS CARDS */
+  --lp-raio-interno: 4px; /* ALTERE AQUI O ARREDONDAMENTO DE LISTAS E OPÇÕES */
+  --lp-raio-app: 10px; /* ALTERE AQUI O ARREDONDAMENTO DA TELA DO APP */
+
+
+  /* ========================================================================
+     4. ESPAÇAMENTOS
+     Margens, folgas internas e distâncias entre elementos.
+     ======================================================================== */
+
+  /* Laterais e seções */
+  --lp-margem-lateral: clamp(20px, 5vw, 72px); /* ALTERE AQUI A MARGEM ESQUERDA E DIREITA DA PÁGINA */
+  --lp-secao-vertical: clamp(72px, 11vw, 150px); /* ALTERE AQUI A DISTÂNCIA VERTICAL ENTRE AS SEÇÕES */
+  --lp-rodape-vertical: 26px; /* ALTERE AQUI A FOLGA VERTICAL DO RODAPÉ */
+
+  /* Topo da página */
+  --lp-hero-topo: 140px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TOPO DA TELA E O RÓTULO */
+  --lp-hero-base: 40px; /* ALTERE AQUI A DISTÂNCIA ABAIXO DA TELA DO APP */
+  --lp-distancia-rotulo: 14px; /* ALTERE AQUI A DISTÂNCIA ENTRE O RÓTULO E O TÍTULO */
+  --lp-distancia-subtitulo: 22px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E O SUBTÍTULO */
+  --lp-distancia-botoes: 30px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TEXTO E OS BOTÕES */
+  --lp-distancia-entre-botoes: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE UM BOTÃO E OUTRO */
+  --lp-distancia-app: 70px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS BOTÕES E A TELA DO APP */
+
+  /* Menu */
+  --lp-menu-folga: 8px 8px 8px 16px; /* ALTERE AQUI A FOLGA INTERNA DO MENU: CIMA, DIREITA, BAIXO, ESQUERDA */
+  --lp-menu-distancia-links: 26px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS LINKS DO MENU */
+  --lp-menu-distancia-acoes: 16px; /* ALTERE AQUI A DISTÂNCIA ENTRE ENTRAR E CRIAR CONTA */
+  --lp-marca-distancia: 9px; /* ALTERE AQUI A DISTÂNCIA ENTRE O SÍMBOLO E O NOME */
+
+  /* Cards e passos */
+  --lp-card-folga: 24px; /* ALTERE AQUI A FOLGA INTERNA DOS CARDS DE RECURSOS */
+  --lp-card-distancia-textos: 8px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E O TEXTO DOS CARDS */
+  --lp-quadrados-largura-maxima: 280px; /* ALTERE AQUI A LARGURA MÁXIMA DOS QUADRADOS DA OFENSIVA NOS CARDS */
+  --lp-inbox-item-folga: 8px 10px; /* ALTERE AQUI A FOLGA DOS ITENS DO CARD DA INBOX */
+  --lp-card-distancia-peca: 16px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TEXTO E A ILUSTRAÇÃO DO CARD */
+  --lp-grade-distancia: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS CARDS DE RECURSOS */
+  --lp-grade-topo: 44px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E OS CARDS DE RECURSOS */
+  --lp-passos-distancia: 32px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS PASSOS */
+  --lp-passos-topo: 52px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E OS PASSOS */
+  --lp-passos-linha-folga: 28px; /* ALTERE AQUI A DISTÂNCIA ENTRE A LINHA E OS PASSOS */
+  --lp-passo-distancia: 8px; /* ALTERE AQUI A DISTÂNCIA ACIMA E ABAIXO DO TÍTULO DE CADA PASSO */
+
+  /* Demonstração */
+  --lp-demo-topo: 40px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E A DEMONSTRAÇÃO */
+  --lp-demo-abas-distancia: 6px; /* ALTERE AQUI A DISTÂNCIA ENTRE AS ABAS DA DEMONSTRAÇÃO */
+  --lp-demo-abas-base: 16px; /* ALTERE AQUI A DISTÂNCIA ENTRE AS ABAS E A CAPTURA */
+  --lp-demo-aba-folga: 16px; /* ALTERE AQUI A FOLGA LATERAL DAS ABAS DA DEMONSTRAÇÃO */
+  --lp-demo-nota-topo: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE A CAPTURA E A NOTA */
+  --lp-rodape-links-distancia: 20px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS LINKS DO RODAPÉ */
+
+  /* Dúvidas */
+  --lp-faq-topo: 36px; /* ALTERE AQUI A DISTÂNCIA ENTRE O TÍTULO E AS DÚVIDAS */
+  --lp-pergunta-folga: 20px; /* ALTERE AQUI A FOLGA VERTICAL DE CADA PERGUNTA */
+
+  /* Tela do aplicativo e cards flutuantes */
+  --lp-app-folga: 20px 22px; /* ALTERE AQUI A FOLGA INTERNA DA TELA DO APP: VERTICAL E HORIZONTAL */
+  --lp-app-distancia: 16px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS BLOCOS DA TELA DO APP */
+  --lp-app-colunas-distancia: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE A LISTA E A COLUNA DIREITA */
+  --lp-app-menu-folga: 16px 10px; /* ALTERE AQUI A FOLGA INTERNA DO MENU LATERAL DA TELA DO APP */
+  --lp-app-card-folga: 12px 14px; /* ALTERE AQUI A FOLGA INTERNA DOS CARDS DA TELA DO APP */
+  --lp-linha-folga: 12px 16px; /* ALTERE AQUI A FOLGA DAS LINHAS DA ROTINA */
+  --lp-linha-peq-folga: 7px 12px; /* ALTERE AQUI A FOLGA DAS LINHAS DA ROTINA DENTRO DA TELA DO APP */
+  --lp-linha-distancia: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE CAIXA, HORÁRIO, NOME E ETIQUETA DE CADA LINHA */
+  --lp-flutuante-folga: 14px 18px; /* ALTERE AQUI A FOLGA INTERNA DOS CARDS FLUTUANTES */
+  --lp-opcao-folga: 14px 16px; /* ALTERE AQUI A FOLGA INTERNA DAS OPÇÕES DE REORGANIZAÇÃO */
+  --lp-opcoes-distancia: 10px; /* ALTERE AQUI A DISTÂNCIA ENTRE AS OPÇÕES DE REORGANIZAÇÃO */
+  --lp-quadrados-distancia: 5px; /* ALTERE AQUI A DISTÂNCIA ENTRE OS QUADRADOS DA OFENSIVA */
+  --lp-metas-distancia: 12px; /* ALTERE AQUI A DISTÂNCIA ENTRE AS BARRAS DE META */
+
+
+  /* ========================================================================
+     5. POSICIONAMENTO
+     Alinhamentos e lugar de cada elemento.
+     center centraliza; start alinha à esquerda; end alinha à direita.
+     Em text-align use center, left ou right.
+     ======================================================================== */
+
+  /* Topo da página */
+  --lp-hero-alinhamento-texto: center; /* ALTERE AQUI O ALINHAMENTO DO TEXTO DO TOPO: left, center OU right */
+  --lp-hero-alinhamento-blocos: center; /* ALTERE AQUI A POSIÇÃO DOS BLOCOS DO TOPO: start, center OU end */
+  --lp-hero-alinhamento-botoes: center; /* ALTERE AQUI A POSIÇÃO DOS BOTÕES DO TOPO: flex-start, center OU flex-end */
+
+  /* Última seção */
+
+  /* Menu */
+  --lp-menu-topo: 14px; /* ALTERE AQUI A DISTÂNCIA ENTRE O MENU E O TOPO DA TELA */
+  --lp-menu-margem-total: 28px; /* ALTERE AQUI A SOMA DAS MARGENS LATERAIS DO MENU */
+
+  /* Cards flutuantes sobre a tela do app */
+  --lp-flutuante-ofensiva-esquerda: -22px; /* ALTERE AQUI A POSIÇÃO HORIZONTAL DO CARD OFENSIVA */
+  --lp-flutuante-ofensiva-base: 16%; /* ALTERE AQUI A ALTURA DO CARD OFENSIVA, CONTADA DE BAIXO */
+  --lp-flutuante-inbox-direita: -22px; /* ALTERE AQUI A POSIÇÃO HORIZONTAL DO CARD INBOX */
+  --lp-flutuante-inbox-topo: 22%; /* ALTERE AQUI A ALTURA DO CARD INBOX, CONTADA DE CIMA */
+
+  /* Inclinação 3D da tela do app */
+  --lp-app-perspectiva: 1300px; /* ALTERE AQUI A PROFUNDIDADE 3D. MENOR DEIXA MAIS EXAGERADO */
+  --lp-app-origem-3d: 50% 0; /* ALTERE AQUI O PONTO DE GIRO: HORIZONTAL E VERTICAL */
+
+  /* Organização das grades */
+  --lp-grade-colunas: 3; /* ALTERE AQUI A QUANTIDADE DE COLUNAS DOS CARDS DE RECURSOS */
+  --lp-grade-card-largo: span 2; /* ALTERE AQUI QUANTAS COLUNAS OS CARDS LARGOS OCUPAM. EX: span 3 */
+  --lp-passos-colunas: 3; /* ALTERE AQUI A QUANTIDADE DE COLUNAS DOS PASSOS */
+  --lp-app-colunas: var(--lp-app-menu-largura) minmax(0, 1fr); /* ALTERE AQUI A DIVISÃO ENTRE MENU E CONTEÚDO DA TELA DO APP */
+  --lp-app-colunas-conteudo: minmax(0, 1fr) var(--lp-app-coluna-largura); /* ALTERE AQUI A DIVISÃO ENTRE LISTA E COLUNA DIREITA */
+  --lp-linha-colunas: 16px 52px minmax(0, 1fr) auto; /* ALTERE AQUI AS COLUNAS DE CADA LINHA: CAIXA, HORA, NOME E ETIQUETA */
+
+  /* O que aparece em cada elemento: use grid, flex, inline ou none para esconder */
+  --lp-mostrar-links-menu: flex; /* ALTERE AQUI PARA none PARA ESCONDER OS LINKS DO MENU */
+  --lp-mostrar-entrar-menu: inline; /* ALTERE AQUI PARA none PARA ESCONDER O ENTRAR DO MENU */
+  --lp-mostrar-menu-app: grid; /* ALTERE AQUI PARA none PARA ESCONDER O MENU LATERAL DA TELA DO APP */
+  --lp-mostrar-coluna-app: grid; /* ALTERE AQUI PARA none PARA ESCONDER A COLUNA DIREITA DA TELA DO APP */
+  --lp-mostrar-flutuantes: grid; /* ALTERE AQUI PARA none PARA ESCONDER OS CARDS FLUTUANTES */
+  --lp-mostrar-etiqueta-linha: inline; /* ALTERE AQUI PARA none PARA ESCONDER AS ETIQUETAS DA ROTINA */
+  --lp-botao-distribuicao: 0 1 auto; /* ALTERE AQUI PARA 1 1 100% PARA OS BOTÕES OCUPAREM TODA A LARGURA */
+
+
+  /* ========================================================================
+     6. IMAGENS
+     Os caminhos ficam em personalizar.js, na seção IMAGENS.
+     Hoje a página não usa fotos: estes ajustes valem quando você informar um caminho.
+     ======================================================================== */
+
+  /* Logo */
+  --lp-logo-largura: 22px; /* ALTERE AQUI A LARGURA DA IMAGEM DO LOGO */
+  --lp-logo-altura: 22px; /* ALTERE AQUI A ALTURA DA IMAGEM DO LOGO */
+  --lp-logo-ajuste: contain; /* ALTERE AQUI COMO O LOGO SE AJUSTA: contain OU cover */
+
+  /* Imagem de fundo do topo */
+  --lp-hero-imagem-largura: 100%; /* ALTERE AQUI A LARGURA DA IMAGEM DE FUNDO DO TOPO */
+  --lp-hero-imagem-altura: 720px; /* ALTERE AQUI A ALTURA DA IMAGEM DE FUNDO DO TOPO */
+  --lp-hero-imagem-proporcao: auto; /* ALTERE AQUI A PROPORÇÃO DA IMAGEM. EX: 16 / 9. COM auto, VALE A ALTURA */
+  --lp-hero-imagem-ajuste: cover; /* ALTERE AQUI COMO A IMAGEM PREENCHE A ÁREA: cover, contain OU fill */
+  --lp-hero-imagem-foco: center top; /* ALTERE AQUI O PONTO DE FOCO DA IMAGEM: HORIZONTAL E VERTICAL */
+  --lp-hero-imagem-opacidade: 0.35; /* ALTERE AQUI A OPACIDADE DA IMAGEM DE FUNDO: 0 A 1 */
+  --lp-hero-imagem-topo: 0px; /* ALTERE AQUI A POSIÇÃO VERTICAL DA IMAGEM DE FUNDO */
+  --lp-hero-imagem-esquerda: 0px; /* ALTERE AQUI A POSIÇÃO HORIZONTAL DA IMAGEM DE FUNDO */
+
+
+  /* ========================================================================
+     7. ANIMAÇÕES
+     Aqui ficam as transições de CSS. Abertura, títulos, rolagem e mouse
+     ficam em personalizar.js, na seção ANIMACOES.
+     ======================================================================== */
+
+  --lp-curva: cubic-bezier(0.2, 0.7, 0.3, 1); /* ALTERE AQUI A ACELERAÇÃO DAS TRANSIÇÕES */
+  --lp-transicao-menu-esconder: 480ms; /* ALTERE AQUI A VELOCIDADE DO MENU SUMINDO E VOLTANDO */
+  --lp-transicao-menu-fundo: 300ms; /* ALTERE AQUI A VELOCIDADE DO FUNDO DO MENU AO ROLAR */
+  --lp-transicao-botao: 160ms; /* ALTERE AQUI A VELOCIDADE DO BOTÃO AO PASSAR O MOUSE */
+  --lp-transicao-faq: 320ms; /* ALTERE AQUI A VELOCIDADE DE ABRIR E FECHAR UMA DÚVIDA */
+  --lp-transicao-demo: 320ms; /* ALTERE AQUI A VELOCIDADE DA TROCA DE TELA NA DEMONSTRAÇÃO */
+  --lp-transicao-faq-icone: 300ms; /* ALTERE AQUI A VELOCIDADE DO GIRO DO SINAL + */
+}
+
+
+/* ==========================================================================
+   8. RESPONSIVIDADE
+   Cada bloco muda valores apenas naquela faixa de tela.
+   Para mudar o ponto de quebra, altere o número de max-width.
+   Para ajustar algo no celular, copie aqui qualquer variável das seções acima.
+   ========================================================================== */
+
+/* ALTERE AQUI A LARGURA EM QUE A PÁGINA PASSA PARA O LAYOUT DE TABLET E CELULAR */
+@media (max-width: 899px) {
+  :root {
+    --lp-mostrar-links-menu: none; /* ALTERE AQUI PARA flex PARA MANTER OS LINKS DO MENU NO CELULAR */
+    --lp-mostrar-menu-app: none; /* ALTERE AQUI PARA grid PARA MANTER O MENU DA TELA DO APP NO CELULAR */
+    --lp-mostrar-coluna-app: none; /* ALTERE AQUI PARA grid PARA MANTER A COLUNA DIREITA NO CELULAR */
+    --lp-mostrar-flutuantes: none; /* ALTERE AQUI PARA grid PARA MANTER OS CARDS FLUTUANTES NO CELULAR */
+    --lp-app-colunas: minmax(0, 1fr); /* ALTERE AQUI A DIVISÃO DA TELA DO APP NO CELULAR */
+    --lp-app-colunas-conteudo: minmax(0, 1fr); /* ALTERE AQUI A DIVISÃO DO CONTEÚDO DA TELA DO APP NO CELULAR */
+    --lp-app-folga: 14px; /* ALTERE AQUI A FOLGA INTERNA DA TELA DO APP NO CELULAR */
+    --lp-grade-colunas: 1; /* ALTERE AQUI A QUANTIDADE DE COLUNAS DOS RECURSOS NO CELULAR */
+    --lp-grade-card-largo: auto; /* ALTERE AQUI QUANTAS COLUNAS OS CARDS LARGOS OCUPAM NO CELULAR */
+    --lp-passos-colunas: 1; /* ALTERE AQUI A QUANTIDADE DE COLUNAS DOS PASSOS NO CELULAR */
+  }
+}
+
+/* ALTERE AQUI A LARGURA EM QUE A PÁGINA PASSA PARA O LAYOUT DE CELULAR PEQUENO */
+@media (max-width: 480px) {
+  :root {
+    --lp-demo-largura-minima: 640px; /* ALTERE AQUI A LARGURA MÍNIMA DAS CAPTURAS NO CELULAR */
+    --lp-mostrar-entrar-menu: none; /* ALTERE AQUI PARA inline PARA MANTER O ENTRAR NO MENU DO CELULAR */
+    --lp-mostrar-etiqueta-linha: none; /* ALTERE AQUI PARA inline PARA MANTER AS ETIQUETAS NO CELULAR */
+    --lp-linha-colunas: 16px 46px minmax(0, 1fr); /* ALTERE AQUI AS COLUNAS DE CADA LINHA NO CELULAR PEQUENO */
+    --lp-botao-distribuicao: 1 1 100%; /* ALTERE AQUI PARA 0 1 auto PARA OS BOTÕES NÃO OCUPAREM A LARGURA TODA */
+  }
+}
