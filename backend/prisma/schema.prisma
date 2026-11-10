@@ -1,0 +1,203 @@
+// Modelo de dados do Plannio. Datas do calendário são texto YYYY-MM-DD e horários são minutos desde 00:00,
+// para que o fuso do servidor nunca mude o dia de ninguém.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Theme {
+  LIGHT
+  DARK
+}
+
+enum Color {
+  BARRO
+  OCRE
+  MUSGO
+  EUCALIPTO
+  AZUL
+  VIOLETA
+  AMEIXA
+}
+
+enum Frequency {
+  DAILY
+  WEEKDAYS
+  SPECIFIC_DAYS
+  CUSTOM
+}
+
+enum IntervalUnit {
+  DAY
+  WEEK
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Status {
+  PENDING
+  DONE
+  PARTIAL
+  NOT_DONE
+  POSTPONED
+}
+
+enum ExceptionKind {
+  NONE
+  CHANGED
+  SKIPPED
+  DETACHED
+}
+
+enum ChangeReason {
+  REORGANIZE
+  MANUAL_EDIT
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  passwordHash  String
+  planningStart Int            @default(360)
+  planningEnd   Int            @default(1380)
+  theme         Theme?
+  createdAt     DateTime       @default(dbgenerated("clock_timestamp()"))
+  updatedAt     DateTime?      @updatedAt
+  categories    Category[]
+  routines      Routine[]
+  activities    Activity[]
+  changes       ChangeRecord[]
+  sessions      Session[]
+}
+
+model Category {
+  id                String     @id @default(uuid())
+  userId            String
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name              String
+  color             Color
+  weeklyGoalMinutes Int?
+  createdAt         DateTime   @default(dbgenerated("clock_timestamp()"))
+  updatedAt         DateTime?  @updatedAt
+  routines          Routine[]
+  activities        Activity[]
+
+  @@unique([userId, name])
+}
+
+model Routine {
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  categoryId     String?
+  category       Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  description    String?
+  priority       Priority?
+  isFixed        Boolean       @default(false)
+  startMinutes   Int
+  endMinutes     Int
+  steps          String[]
+  frequency      Frequency
+  weekdays       Int[]
+  intervalValue  Int?
+  intervalUnit   IntervalUnit?
+  startDate      String        @db.VarChar(10)
+  endDate        String?       @db.VarChar(10)
+  generatedUntil String?       @db.VarChar(10)
+  cancelledFrom  String?       @db.VarChar(10)
+  createdAt      DateTime      @default(dbgenerated("clock_timestamp()"))
+  updatedAt      DateTime?     @updatedAt
+  activities     Activity[]
+
+  @@index([userId])
+}
+
+model Activity {
+  id               String         @id @default(uuid())
+  userId           String
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  categoryId       String?
+  category         Category?      @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  description      String?
+  priority         Priority?
+  isFixed          Boolean        @default(false)
+  date             String?        @db.VarChar(10)
+  startMinutes     Int?
+  endMinutes       Int?
+  estimatedMinutes Int?
+  status           Status         @default(PENDING)
+  actualStart      Int?
+  actualEnd        Int?
+  routineId        String?
+  routine          Routine?       @relation(fields: [routineId], references: [id], onDelete: SetNull)
+  occurrenceDate   String?        @db.VarChar(10)
+  exceptionKind    ExceptionKind  @default(NONE)
+  version          Int            @default(1)
+  createdAt        DateTime       @default(dbgenerated("clock_timestamp()"))
+  updatedAt        DateTime?      @updatedAt
+  steps            ActivityStep[]
+  changes          ChangeRecord[]
+
+  @@unique([routineId, occurrenceDate])
+  @@index([userId, date])
+}
+
+model ActivityStep {
+  id         String    @id @default(uuid())
+  activityId String
+  activity   Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  text       String
+  done       Boolean   @default(false)
+  position   Int
+  createdAt  DateTime  @default(dbgenerated("clock_timestamp()"))
+  updatedAt  DateTime? @updatedAt
+
+  @@index([activityId])
+}
+
+model ChangeRecord {
+  id           String       @id @default(uuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityId   String
+  activity     Activity     @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  activityName String
+  reason       ChangeReason
+  fromDate     String?      @db.VarChar(10)
+  fromStart    Int?
+  fromEnd      Int?
+  toDate       String?      @db.VarChar(10)
+  toStart      Int?
+  toEnd        Int?
+  requestId    String?
+  createdAt    DateTime     @default(dbgenerated("clock_timestamp()"))
+  updatedAt    DateTime?    @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([userId, requestId])
+}
+
+// Sessão aberta. O cookie aponta para esta linha, e revogá-la encerra o acesso na hora.
+model Session {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(dbgenerated("clock_timestamp()"))
+  updatedAt DateTime? @updatedAt
+
+  @@index([userId])
+  @@index([expiresAt])
+}

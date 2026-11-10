@@ -1,0 +1,21 @@
+# PostgreSQL para desenvolvimento e testes: localhost:5433, bancos plannio_dev e plannio_test.
+name: plannio
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: plannio
+      POSTGRES_PASSWORD: plannio
+      POSTGRES_DB: plannio_dev
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - plannio-db:/var/lib/postgresql/data
+      - ../backend/prisma/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plannio -d plannio_dev"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+volumes:
+  plannio-db:

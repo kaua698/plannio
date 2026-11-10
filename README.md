@@ -4,22 +4,26 @@
 
 O Plannio é uma aplicação web para organizar o dia a dia. Você coloca o que vai fazer em cada horário, como acordar, ir para a faculdade e estudar. O site mostra o que fazer naquela hora, você marca o que fez e acompanha sua semana com uma ofensiva.
 
-> **Status do projeto:** em fase de especificação. O desenvolvimento segue o [roteiro](#roteiro), e as instruções de instalação serão adicionadas junto com o código.
+> **Status do projeto:** funcional, com contas, banco de dados e testes automatizados. Preparado para publicação na Vercel.
 
 ## Sumário
 
 - [O problema](#o-problema)
-- [A solução](#a-solução)
+- [A solução e proposta de valor](#a-solução-e-proposta-de-valor)
 - [Escopo da primeira versão](#escopo-da-primeira-versão)
 - [Histórias de usuário](#histórias-de-usuário)
 - [Funcionalidades](#funcionalidades)
-- [Qualidade e segurança](#qualidade-e-segurança)
+- [Requisitos do sistema](#requisitos-do-sistema)
 - [Regras de negócio](#regras-de-negócio)
 - [Fluxo principal: reorganizar o dia](#fluxo-principal-reorganizar-o-dia)
 - [Tratamento de erros](#tratamento-de-erros)
 - [Arquitetura e tecnologias](#arquitetura-e-tecnologias)
 - [Critérios de aceite](#critérios-de-aceite)
 - [Definição de pronto](#definição-de-pronto)
+- [Como executar](#como-executar)
+- [Testes](#testes)
+- [Como publicar na Vercel](#como-publicar-na-vercel)
+- [Limitações conhecidas](#limitações-conhecidas)
 - [Roteiro](#roteiro)
 
 ## O problema
@@ -28,9 +32,9 @@ Quem tem aulas, trabalho, estudos e compromissos pessoais costuma guardar a roti
 
 As agendas comuns registram compromissos, mas raramente mostram o dia inteiro como uma sequência simples de ações, permitem marcar o que foi feito ou incentivam a manter a constância. Quando algo atrasa, refazer o restante do dia à mão também dá trabalho, e é comum abandonar o plano.
 
-## A solução
+## A solução e proposta de valor
 
-O Plannio transforma o dia em uma lista clara de ações por horário.
+**Proposta de valor:** o Plannio transforma o dia em uma lista clara de ações por horário e mostra, a cada momento, o que fazer agora.
 
 | Princípio | Na prática |
 |---|---|
@@ -46,11 +50,11 @@ O Plannio transforma o dia em uma lista clara de ações por horário.
 
 | Incluído | Fora desta versão |
 |---|---|
-| Cadastro, login, logout e exclusão da conta | Recuperação de senha por e-mail |
+| Cadastro, login, logout e exclusão da conta | Confirmação de e-mail e recuperação de senha |
 | Tela Hoje com a atividade do momento e a rotina do dia | Login com Google ou redes sociais |
 | Planejamento dia por dia, com preenchimento por horário | Aplicativo nativo para Android ou iOS |
 | Ações que se repetem e ajustes em um único dia | Arrastar e soltar atividades |
-| Marcar o que foi feito e registrar outros status | Notificações por e-mail, push ou navegador |
+| Marcar o que foi feito e registrar outros status | Lembretes de atividades por e-mail, push ou navegador |
 | Etapas dentro de uma atividade | Detecção automática de atrasos |
 | Visão semanal | Integração com outros calendários |
 | Ofensiva e progresso da semana | Compartilhamento e recursos entre usuários |
@@ -113,19 +117,36 @@ O site é organizado em sete áreas: **Hoje**, **Planejar**, **Semana**, **Repet
 - Tempo planejado e realizado por categoria, e histórico de alterações.
 - Categorias com cor e meta semanal opcional, horário do dia, tema e dados da conta.
 
-## Qualidade e segurança
+## Requisitos do sistema
 
-| Área | Compromisso |
+### Requisitos funcionais
+
+| Código | Requisito |
 |---|---|
-| **Segurança** | Senhas armazenadas apenas como hash (bcrypt) e sessão em cookie `HttpOnly` |
-| **Privacidade** | Cada pessoa acessa somente os próprios dados, com verificação do dono de cada registro no backend |
-| **Persistência** | Dados em banco de dados, disponíveis após fechar o navegador ou trocar de dispositivo |
-| **Integridade** | Aplicar uma sugestão salva todas as alterações em uma transação: ou tudo é salvo, ou nada muda |
-| **Desempenho** | Com o site já ativo, telas e sugestões aparecem em até 2 segundos em uso normal |
-| **Responsividade** | Sem rolagem horizontal da página a partir de 360 px de largura; no celular, a barra lateral vira menu |
-| **Compatibilidade** | Versões atuais de Chrome, Edge, Firefox e Safari |
-| **Acessibilidade** | Ações principais pelo teclado, contraste legível nos dois temas e status com ícone e texto, nunca só com cor |
-| **Validação** | Toda entrada é validada no frontend e novamente no backend |
+| RF01 | O sistema deve permitir cadastro, login, logout e exclusão da conta. |
+| RF02 | O sistema deve mostrar a atividade do momento, o tempo restante e o que vem depois. |
+| RF03 | O sistema deve permitir criar, editar e excluir atividades em um dia e horário. |
+| RF04 | O sistema deve permitir que uma ação se repita em dias definidos e seja ajustada em um único dia. |
+| RF05 | O sistema deve permitir marcar uma atividade como concluída, parcial, não realizada ou adiada. |
+| RF06 | O sistema deve permitir dividir uma atividade em etapas. |
+| RF07 | O sistema deve mostrar a semana e o quanto foi cumprido em cada dia. |
+| RF08 | O sistema deve calcular a ofensiva e o progresso por categoria, com metas semanais. |
+| RF09 | O sistema deve guardar atividades sem horário na Inbox e encaixá-las em horários livres. |
+| RF10 | O sistema deve sugerir até três novos horários e só alterar a agenda após confirmação. |
+| RF11 | O sistema deve permitir fechar o dia, registrando o que aconteceu com o que ficou aberto. |
+
+### Requisitos não funcionais
+
+| Código | Requisito |
+|---|---|
+| RNF01 | A interface deve funcionar em computador e celular, sem rolagem horizontal a partir de 360 px. |
+| RNF02 | Os dados devem permanecer salvos em banco de dados após fechar o navegador. |
+| RNF03 | Cada pessoa deve acessar somente os próprios dados, com verificação no backend. |
+| RNF04 | As senhas devem ser armazenadas apenas como hash bcrypt, e a sessão deve usar cookie `HttpOnly`. |
+| RNF05 | Aplicar uma sugestão deve salvar todas as alterações em uma transação. |
+| RNF06 | Toda entrada deve ser validada no frontend e novamente no backend. |
+| RNF07 | O sistema deve funcionar nas versões atuais de Chrome, Edge, Firefox e Safari. |
+| RNF08 | As ações principais devem funcionar pelo teclado, com contraste legível nos temas claro e escuro. |
 
 ## Regras de negócio
 
@@ -200,8 +221,8 @@ flowchart LR
 |---|---|---|
 | **Frontend** | React, Vite, JavaScript, React Router e CSS | Telas, navegação, formulários, temas e responsividade |
 | **Backend** | Node.js, Express e JavaScript (API REST) | Autenticação, validação, repetições, reorganização, ofensiva e progresso |
-| **Armazenamento** | PostgreSQL com Prisma | Usuários, categorias, atividades, etapas, repetições e histórico |
-| **Publicação** | Hospedagem com HTTPS | Site, API e banco acessíveis por um link público |
+| **Armazenamento** | PostgreSQL com Prisma | Usuários, sessões, categorias, atividades, etapas, repetições e histórico |
+| **Publicação** | Vercel e Neon | Site, API e banco acessíveis por um link público com HTTPS |
 
 **Por que esta combinação:** React e Node.js permitem usar JavaScript em todo o projeto, o que facilita aprender, manter e explicar o código. O backend próprio protege as contas e concentra as regras mais importantes. O PostgreSQL é adequado porque os dados são relacionados entre si, e as transações garantem que uma reorganização nunca fique salva pela metade.
 
@@ -209,18 +230,25 @@ flowchart LR
 
 ```text
 plannio/
-├─ client/                  # Frontend (React)
+├─ frontend/             # Telas (React)
 │  └─ src/
-│     ├─ pages/             # Hoje, Planejar, Semana, Repetições, Inbox, Progresso, Configurações, Login
-│     ├─ components/        # Rotina do dia, grade, formulários, janelas
-│     ├─ services/          # Chamadas à API
-│     └─ context/           # Usuário logado e tema
-└─ server/                  # Backend (Node.js + Express)
-   ├─ prisma/               # Estrutura do banco de dados
-   └─ src/
-      ├─ routes/            # Endereços da API
-      ├─ middlewares/       # Verificação de login e validação
-      └─ services/          # Regras: repetições, reorganização, ofensiva e progresso
+│     ├─ landing/        # Página que explica o funcionamento; ajustes em landing/config
+│     ├─ pages/          # Áreas do aplicativo, entrada, cadastro e páginas legais
+│     ├─ components/     # Rotina do dia, grade, formulários, janelas
+│     ├─ services/       # Chamadas à API
+│     └─ context/        # Usuário logado e tema
+├─ backend/              # Servidor (Node.js + Express)
+│  ├─ prisma/            # Estrutura do banco de dados
+│  └─ src/
+│     ├─ routes/         # Endereços da API
+│     ├─ middlewares/    # Sessão, origem das requisições e tratamento de erros
+│     ├─ services/       # Sessões
+│     └─ lib/            # Hash de senha, cookie e erros
+├─ shared/               # Regras usadas pelos dois lados: repetições, reorganização, ofensiva e progresso
+├─ e2e/                  # Testes de ponta a ponta com Playwright
+├─ api/                  # Entrada do servidor na Vercel
+├─ infra/                # PostgreSQL para o ambiente local
+└─ scripts/              # Comando que sobe o site completo
 ```
 
 ### Principais dados
@@ -228,6 +256,7 @@ plannio/
 | Entidade | O que guarda |
 |---|---|
 | **Usuário** | Nome, e-mail, hash da senha, horário do dia e tema |
+| **Sessão** | Validade e encerramento de cada acesso |
 | **Categoria** | Nome, cor e meta semanal opcional |
 | **Atividade** | Nome, data, horários, tipo, status, horário real opcional e vínculo com a repetição |
 | **Etapa** | Item de uma lista dentro da atividade |
@@ -252,6 +281,7 @@ plannio/
 - Progresso mostra a ofensiva atual e a maior, o cumprido por dia e o tempo por categoria.
 - Depois de fechar o navegador e entrar novamente, os dados continuam salvos, e o plano original de uma atividade reorganizada aparece no histórico.
 - A conta pode ser excluída após confirmação e não permite novo acesso.
+- Um mesmo e-mail nunca gera duas contas, mesmo com pedidos simultâneos.
 - As sete áreas funcionam em 360 px e em computador, nos dois temas, sem rolagem horizontal da página.
 - No link público com HTTPS, a mesma conta mostra os mesmos dados no computador e no celular.
 
@@ -266,14 +296,97 @@ O Plannio será considerado finalizado quando:
 - o repositório tiver instruções para instalar, configurar o banco, executar e publicar o projeto;
 - nenhuma senha ou chave secreta estiver salva no repositório.
 
+## Como executar
+
+**Requisitos:** Node.js 22 ou mais novo e Docker Desktop.
+
+```bash
+npm install
+```
+
+Copie `.env.example` para `.env` e preencha `JWT_SECRET`. O comando abaixo gera um valor:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
+```
+
+Suba o PostgreSQL, aplique a estrutura do banco e inicie o site:
+
+```bash
+npm run db:up
+```
+
+```bash
+npm run db:deploy
+```
+
+```bash
+npm run dev
+```
+
+O site abre em `http://localhost:5173`, e a API responde em `http://localhost:3001`.
+
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Sobe o servidor e as telas, com banco real |
+| `npm run dev:demo` | Abre só as telas, com uma conta de exemplo e dados guardados no navegador |
+| `npm run db:up` / `npm run db:down` | Liga e desliga o PostgreSQL |
+| `npm run db:deploy` | Aplica as migrações pendentes |
+| `npm run db:studio` | Abre as tabelas do banco no navegador |
+
+### Variáveis de ambiente
+
+| Variável | Uso |
+|---|---|
+| `JWT_SECRET` | Obrigatória. Assina o cookie de sessão, com pelo menos 32 caracteres |
+| `DATABASE_URL` | Conexão com o PostgreSQL. Obrigatória em produção; vazia em desenvolvimento, usa memória |
+| `DATABASE_URL_UNPOOLED` | Conexão direta usada nas migrações. Criada pela integração da Neon na Vercel |
+| `APP_URL` | Endereço do site. Opcional na Vercel, onde é detectado sozinho |
+| `PORT`, `NODE_ENV` | Porta e ambiente |
+
+## Testes
+
+| Comando | O que cobre |
+|---|---|
+| `npm test` | Regras, API, entradas inválidas, isolamento entre contas e telas |
+| `npm run test:db` | As mesmas regras no PostgreSQL de teste (`plannio_test`) |
+| `npm run test:e2e` | Navegadores reais, em computador e celular |
+
+Os cenários de conta precisam do PostgreSQL ligado. No PowerShell:
+
+```powershell
+$env:E2E_DATABASE_URL="postgresql://plannio:plannio@localhost:5433/plannio_test"; npm run test:e2e
+```
+
+## Como publicar na Vercel
+
+As telas são publicadas como arquivos estáticos, e a API roda em uma função (`api/index.js`). O arquivo `vercel.json` já define a construção e as rotas.
+
+1. Envie o projeto para a branch `main` do GitHub.
+2. Na Vercel, importe o repositório, mantendo a pasta raiz.
+3. Em Environment Variables, crie `JWT_SECRET` com um valor gerado pelo comando da seção anterior.
+4. Faça o primeiro deploy. Ele falha por ainda não haver banco, o que é esperado.
+5. Na aba Storage do projeto, crie um banco Neon e conecte ao projeto. A integração cria `DATABASE_URL` e `DATABASE_URL_UNPOOLED`.
+6. Em Deployments, escolha **Redeploy**. As migrações rodam durante a construção.
+
+## Limitações conhecidas
+
+- Não há confirmação de e-mail nem recuperação de senha.
+- Não há limite de tentativas de login, previsto para uma etapa futura de segurança.
+- O cadastro informa quando um e-mail já existe.
+- Não há tela para trocar a senha.
+
 ## Roteiro
 
 - [x] Especificação do produto
-- [x] Redesign da interface
-- [ ] Base do projeto, banco de dados e contas
-- [ ] Atividades, etapas, repetições e Inbox
-- [ ] Reorganização assistida
-- [ ] Ofensiva, progresso e histórico
-- [ ] Telas e responsividade
-- [ ] Testes do fluxo completo
+- [x] Interface
+- [x] Base do projeto, banco de dados e contas
+- [x] Atividades, etapas, repetições e Inbox
+- [x] Reorganização assistida
+- [x] Ofensiva, progresso e histórico
+- [x] Telas e responsividade
+- [x] Testes do fluxo completo
+- [x] Sessões revogáveis
+- [x] Página de apresentação
 - [ ] Publicação
+- [ ] Confirmação de e-mail, recuperação de senha e limite de tentativas

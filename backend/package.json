@@ -1,0 +1,31 @@
+{
+  "name": "@plannio/backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=../.env src/index.js",
+    "start": "node src/index.js",
+    "test": "vitest run",
+    "test:db": "vitest run --config vitest.contract.config.js",
+    "db:migrate": "node --env-file-if-exists=../.env ../node_modules/prisma/build/index.js migrate dev",
+    "db:deploy": "node --env-file-if-exists=../.env ../node_modules/prisma/build/index.js migrate deploy",
+    "postinstall": "prisma generate",
+    "db:studio": "node --env-file-if-exists=../.env ../node_modules/prisma/build/index.js studio",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@plannio/shared": "*",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.22.3",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "prisma": "^7.10.1",
+    "supertest": "^7.0.0",
+    "vitest": "^5.1.0"
+  }
+}

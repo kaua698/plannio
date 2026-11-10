@@ -1,0 +1,36 @@
+{
+  "name": "plannio",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:demo": "npm run dev:demo -w frontend",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "build": "npm run build -w frontend",
+    "start": "node backend/src/index.js",
+    "test": "npm test --workspaces --if-present",
+    "test:db": "npm run test:db -w backend",
+    "test:e2e": "playwright test --config e2e/playwright.config.js",
+    "db:up": "docker compose -f infra/docker-compose.yml up -d --wait --remove-orphans",
+    "db:down": "docker compose -f infra/docker-compose.yml down",
+    "db:migrate": "npm run db:migrate -w backend",
+    "db:deploy": "npm run db:deploy -w backend",
+    "db:studio": "npm run db:studio -w backend",
+    "db:generate": "npm run db:generate -w backend",
+    "vercel-build": "npm run db:generate && npm run db:deploy && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "pg": "^8.23.1",
+    "vitest": "^5.1.0"
+  }
+}
